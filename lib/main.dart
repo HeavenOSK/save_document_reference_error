@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
 class SomeDocument {
   final DocumentReference docRef;
@@ -32,14 +32,11 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   final app = await Firebase.initializeApp();
   final firestore = FirebaseFirestore.instanceFor(app: app);
-  final docRef = firestore
-      .collection('someCollection')
-      .withConverter<SomeDocument>(
-        fromFirestore: SomeDocument.fromJson,
-        toFirestore: SomeDocument.toJson,
-      )
-      .doc();
+
+  // We can save DocumentReference field if we don't use `withConverter`
+  final docRef = firestore.collection('someCollection').doc();
+  final data = SomeDocument(docRef: docRef);
   await docRef.set(
-    SomeDocument(docRef: docRef),
+    SomeDocument.toJson(data, null),
   );
 }
