@@ -39,5 +39,7 @@ void main() async {
         toFirestore: SomeDocument.toJson,
       )
       .doc();
-  await docRef.set(SomeDocument(docRef: docRef));
+  await docRef.set(
+    SomeDocument(docRef: docRef),
+  );
 }
